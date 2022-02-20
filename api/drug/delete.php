@@ -15,16 +15,16 @@ $database = new Database();
 $db = $database->getConnection();
   
 // prepare drug object
-$product = new Product($db);
+$drug = new Drug($db);
   
 // get drug id
 $data = json_decode(file_get_contents("php://input"));
   
 // set drug id to be deleted
-$product->id = $data->id;
+$drug->id = $data->id;
   
 // delete the drug
-if($product->delete()){
+if($drug->delete()){
   
     // set response code - 200 ok
     http_response_code(200);

@@ -15,7 +15,7 @@ $database = new Database();
 $db = $database->getConnection();
   
 // prepare drug object
-$drug = new Product($db);
+$drug = new Drug($db);
   
 // set ID property of record to read
 $drug->id = isset($_GET['id']) ? $_GET['id'] : die();
@@ -27,9 +27,7 @@ if($drug->drugname!=null){
     // create array
     $drug_arr = array(
         "id" =>  $drug->id,
-        "drugname" => $drug->drugname,
-  
-  
+        "drugname" => $drug->drugname
     );
   
     // set response code - 200 OK

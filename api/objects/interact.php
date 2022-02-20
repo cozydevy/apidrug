@@ -1,5 +1,5 @@
 <?php
-class Drug
+class Interact
 {
 
     // database connection and table name
@@ -35,18 +35,29 @@ class Drug
 function create(){
   
     // query to insert record
-    $query = "INSERT INTO ".$this->table_name." SET drugname=:drugname";
+    $query = "INSERT INTO ".$this->table_name." SET iddrug=:iddrug ,idotherdrug=:idotherdrug,summary=:summary,severity=:severity,documentation=:documentation,clarification=:clarification,reference=:reference";
   
     // prepare query
     $stmt = $this->conn->prepare($query);
   
-    // sanitize
-    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
-   
-    // bind values
-    $stmt->bindParam(":drugname", $this->drugname);
-  
-  
+     // sanitize
+     $this->iddrug=htmlspecialchars(strip_tags($this->iddrug));
+     $this->idotherdrug=htmlspecialchars(strip_tags($this->idotherdrug));
+     $this->summary=htmlspecialchars(strip_tags($this->summary));
+     $this->severity=htmlspecialchars(strip_tags($this->severity));
+     $this->documentation=htmlspecialchars(strip_tags($this->documentation));
+     $this->clarification=htmlspecialchars(strip_tags($this->clarification));
+     $this->reference=htmlspecialchars(strip_tags($this->reference));
+
+     // bind values
+     $stmt->bindParam(":iddrug", $this->iddrug);
+     $stmt->bindParam(":idotherdrug", $this->idotherdrug);
+     $stmt->bindParam(":summary", $this->summary);
+     $stmt->bindParam(":severity", $this->severity);
+     $stmt->bindParam(":documentation", $this->documentation);
+     $stmt->bindParam(":documentation", $this->clarification);
+     $stmt->bindParam(":documentation", $this->reference);
+
     // execute query
     if($stmt->execute()){
         return true;
