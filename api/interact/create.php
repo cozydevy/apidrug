@@ -10,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../config/database.php';
   
 // instantiate interact object
-include_once '../objects/drug.php';
+include_once '../objects/interact.php';
   
 $database = new Database();
 $db = $database->getConnection();
@@ -29,15 +29,15 @@ if(
     // set interact property values
     $interact->iddrug = $data->iddrug;
     $interact->idotherdrug = $data->idotherdrug;
-    $interact->summary = $data->summary;
-    $interact->severity = $data->severity;
-    $interact->documentation = $data->documentation;
-    $interact->clarification = $data->clarification;
-    $interact->reference = $data->reference;
+    // $interact->summary = $data->summary;
+    // $interact->severity = $data->severity;
+    // $interact->documentation = $data->documentation;
+    // $interact->clarification = $data->clarification;
+    // $interact->reference = $data->reference;
 
   
     // create the interact
-    if($drug->create()){
+    if($interact->create()){
   
         // set response code - 201 created
         http_response_code(201);

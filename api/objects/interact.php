@@ -4,11 +4,17 @@ class Interact
 
     // database connection and table name
     private $conn;
-    private $table_name = "drug";
+    private $table_name = "interact";
 
     // object properties
-    public $id;
-    public $name;
+    public $iddrug;
+    public $idotherdrug;
+    public $summary;
+    public $severity;
+    public $documentation;
+    public $clarification;
+    public $reference;
+
   
 
     // constructor with $db as database connection
@@ -35,28 +41,29 @@ class Interact
 function create(){
   
     // query to insert record
-    $query = "INSERT INTO ".$this->table_name." SET iddrug=:iddrug ,idotherdrug=:idotherdrug,summary=:summary,severity=:severity,documentation=:documentation,clarification=:clarification,reference=:reference";
-  
+    $query = "INSERT INTO ".$this->table_name." SET iddrug=:iddrug ,idotherdrug=:idotherdrug";
+    // ,summary=:summary,severity=:severity,documentation=:documentation,clarification=:clarification,reference=:reference
     // prepare query
     $stmt = $this->conn->prepare($query);
   
      // sanitize
      $this->iddrug=htmlspecialchars(strip_tags($this->iddrug));
      $this->idotherdrug=htmlspecialchars(strip_tags($this->idotherdrug));
-     $this->summary=htmlspecialchars(strip_tags($this->summary));
-     $this->severity=htmlspecialchars(strip_tags($this->severity));
-     $this->documentation=htmlspecialchars(strip_tags($this->documentation));
-     $this->clarification=htmlspecialchars(strip_tags($this->clarification));
-     $this->reference=htmlspecialchars(strip_tags($this->reference));
+    //  $this->summary=htmlspecialchars(strip_tags($this->summary));
+    //  $this->severity=htmlspecialchars(strip_tags($this->severity));
+    //  $this->documentation=htmlspecialchars(strip_tags($this->documentation));
+    //  $this->clarification=htmlspecialchars(strip_tags($this->clarification));
+    //  $this->reference=htmlspecialchars(strip_tags($this->reference));
 
      // bind values
      $stmt->bindParam(":iddrug", $this->iddrug);
      $stmt->bindParam(":idotherdrug", $this->idotherdrug);
-     $stmt->bindParam(":summary", $this->summary);
-     $stmt->bindParam(":severity", $this->severity);
-     $stmt->bindParam(":documentation", $this->documentation);
-     $stmt->bindParam(":documentation", $this->clarification);
-     $stmt->bindParam(":documentation", $this->reference);
+    //  $stmt->bindParam(":summary", $this->summary);
+    //  $stmt->bindParam(":severity", $this->severity);
+    //  $stmt->bindParam(":documentation", $this->documentation);
+    //  $stmt->bindParam(":clarification", $this->clarification);
+    //  $stmt->bindParam(":reference", $this->reference);
+
 
     // execute query
     if($stmt->execute()){
