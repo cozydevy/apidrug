@@ -75,17 +75,7 @@ function create(){
 function readOne(){
   
     // query to read single record
-    $query = "SELECT
-                c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
-            FROM
-                " . $this->table_name . " p
-                LEFT JOIN
-                    categories c
-                        ON p.category_id = c.id
-            WHERE
-                p.id = ?
-            LIMIT
-                0,1";
+    $query = "SELECT c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created FROM ".$this->table_name." p JOIN categories c ON p.category_id = c.id  WHERE p.id = ? LIMIT 0,1";
   
     // prepare query statement
     $stmt = $this->conn->prepare( $query );

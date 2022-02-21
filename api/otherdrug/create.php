@@ -9,51 +9,45 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
   
-// instantiate interact object
-include_once '../objects/interact.php';
+// instantiate drug object
+include_once '../objects/drug.php';
   
 $database = new Database();
 $db = $database->getConnection();
   
-$interact = new Interact($db);
+$drug = new Drug($db);
   
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
   
 // make sure data is not empty
 if(
-    !empty($data->iddrug) &&
-    !empty($data->idotherdrug)
+    !empty($data->drugname) 
+ 
 ){
   
-    // set interact property values
-    $interact->iddrug = $data->iddrug;
-    $interact->idotherdrug = $data->idotherdrug;
-    $interact->summary = $data->summary;
-    $interact->severity = $data->severity;
-    $interact->documentation = $data->documentation;
-    $interact->clarification = $data->clarification;
-    $interact->reference = $data->reference;
-
+    // set drug property values
+    $drug->drugname = $data->drugname;
+   
   
-    // create the interact
-    if($interact->create()){
+    // create the drug
+    if($drug->create()){
   
         // set response code - 201 created
         http_response_code(201);
   
         // tell the user
-        echo json_encode(array("message" => "interact was created."));
+        echo json_encode(array("message" => "drug was created."));
     }
   
-    // if unable to create the interact, tell the user
+    // if unable to create the drug, tell the user
     else{
   
         // set response code - 503 service unavailable
         http_response_code(503);
   
         // tell the user
-        echo json_encode(array("message" => "Unable to create interact."));
+        echo json_encode(array("message" => "Unable to create drug."));
     }
 }
   

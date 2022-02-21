@@ -7,27 +7,27 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/drug.php';
+include_once '../objects/otherdrug.php';
   
 // instantiate database and drug object
 $database = new Database();
 $db = $database->getConnection();
   
 // initialize object
-$drug = new Drug($db);
+$otherdrug = new Otherdrug($db);
   
 // read drug will be here
 
 // query drug
-$stmt = $drug->read();
+$stmt = $otherdrug->read();
 $num = $stmt->rowCount();
   
 // check if more than 0 record found
 if($num>0){
   
     // drug array
-    $drug_arr=array();
-    $drug_arr["drug"]=array();
+    $otherdrug_arr=array();
+    $otherdrug_arr["otherdrug"]=array();
   
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -38,29 +38,29 @@ if($num>0){
         // just $name only
         extract($row);
   
-        $drug_item=array(
+        $otherdrug_item=array(
             "id" => $id,
-            "drugname" => $drugname,
+            "otherdrug" => $otherdrug,
          
         );
   
-        array_push($drug_arr["drug"], $drug_item);
+        array_push($otherdrug_arr["otherdrug"], $otherdrug_item);
     }
   
     // set response code - 200 OK
     http_response_code(200);
   
-    // show drug data in json format
-    echo json_encode($drug_arr);
+    // show otherdrug data in json format
+    echo json_encode($otherdrug_arr);
 }
 else{
   
     // set response code - 404 Not found
     http_response_code(404);
   
-    // tell the user no drug found
+    // tell the user no otherdrug found
     echo json_encode(
-        array("message" => "No drug found.")
+        array("error" => "No otherdrug found.")
     );
 }
   

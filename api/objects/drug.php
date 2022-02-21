@@ -8,7 +8,7 @@ class Drug
 
     // object properties
     public $id;
-    public $name;
+    public $drugname;
   
 
     // constructor with $db as database connection
