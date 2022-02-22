@@ -100,6 +100,8 @@ function readOne(){
      $stmt->execute();
 
      return $stmt;
+
+     
 }
 
 // update the drugname

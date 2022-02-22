@@ -71,7 +71,7 @@ else{
   
     // tell the user no interact found
     echo json_encode(
-        array("message" => "No interact found.")
+        array("status" => "No interact found.")
     );
 }
   
