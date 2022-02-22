@@ -76,45 +76,44 @@ function create(){
 
 // used when filling up the update product form
 function readOne(){
-  
     // query to read single record
-    $query = "SELECT id , drugname FROM ".$this->table_name." WHERE id = ?";
+    $query = "SELECT * FROM ".$this->table_name." WHERE iddrug=:iddrug AND idotherdrug=:idotherdrug";
     // prepare query statement
-    $stmt = $this->conn->prepare( $query );
-  
-    // bind id of product to be updated
-    $stmt->bindParam(1, $this->id);
-  
-    // execute query
-    $stmt->execute();
-  
-    // get retrieved row
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  
-    // set values to object properties
-    $this->id = $row['id'];
+     // select all query
+    
+     // $query = "SELECT * FROM products";
+     // prepare query statement
+     $stmt = $this->conn->prepare($query);
 
-    $this->drugname = $row['drugname'];
-  
+     $this->iddrug=htmlspecialchars(strip_tags($this->iddrug));
+     $this->idotherdrug=htmlspecialchars(strip_tags($this->idotherdrug));
+ 
+     // bind new values
+     $stmt->bindParam(':iddrug', $this->iddrug);
+     $stmt->bindParam(':idotherdrug', $this->idotherdrug);
+     // execute query
+     $stmt->execute();
+
+     return $stmt;
 }
 
 // update the drugname
 function update(){
   
     // update query
-    $query = "UPDATE ".$this->table_name." SET drugname = :drugname WHERE id = :id";
+    $query = "UPDATE ".$this->table_name." SET drugname = :drugname WHERE id = :id ";
   
     // prepare query statement
     $stmt = $this->conn->prepare($query);
-  
+
     // sanitize
     $this->drugname=htmlspecialchars(strip_tags($this->drugname));
     $this->id=htmlspecialchars(strip_tags($this->id));
-  
+
     // bind new values
     $stmt->bindParam(':drugname', $this->drugname);
     $stmt->bindParam(':id', $this->id);
-  
+
     // execute the query
     if($stmt->execute()){
         return true;

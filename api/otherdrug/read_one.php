@@ -15,19 +15,19 @@ $database = new Database();
 $db = $database->getConnection();
   
 // prepare drug object
-$drug = new Drug($db);
+$otherdrug = new Otherdrug($db);
   
 // set ID property of record to read
-$drug->id = isset($_GET['id']) ? $_GET['id'] : die();
+$otherdrug->id = isset($_GET['id']) ? $_GET['id'] : die();
   
 // read the details of product to be edited
-$drug->readOne();
+$otherdrug->readOne();
   
-if($drug->drugname!=null){
+if($otherdrug->otherdrug!=null){
     // create array
-    $drug_arr = array(
-        "id" =>  $drug->id,
-        "drugname" => $drug->drugname
+    $otherdrug_arr = array(
+        "id" =>  $otherdrug->id,
+        "drugname" => $otherdrug->otherdrug
     );
   
     // set response code - 200 OK

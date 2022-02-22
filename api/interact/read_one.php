@@ -1,54 +1,78 @@
 <?php
 // required headers
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Credentials: true");
-header('Content-Type: application/json');
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
   
+// database connection will be here
+
 // include database and object files
 include_once '../config/database.php';
 include_once '../objects/interact.php';
   
-// get database connection
+// instantiate database and interact object
 $database = new Database();
 $db = $database->getConnection();
   
-// prepare interact object
+// initialize object
 $interact = new Interact($db);
+$data = json_decode(file_get_contents("php://input"));
+$interact->iddrug = $data->iddrug;
+$interact->idotherdrug = $data->idotherdrug;
+
+// read interact will be here
+
+// query interact
+$stmt = $interact->readOne();
+$num = $stmt->rowCount();
   
-// set ID property of record to read
-$interact->id = isset($_GET['id']) ? $_GET['id'] : die();
+// check if more than 0 record found
+if($num>0){
   
-// read the details of interact to be edited
-$interact->readOne();
+    // interact array
+    $interact_arr=array();
+    $interact_arr["interact"]=array();
   
-if($interact->name!=null){
-    // create array
-    $interact_arr = array(
-        "id" =>  $interact->id,
-        "iddrug" => $interact->iddrug,
-        "idotherdrug" => $interact->idotherdrug,
-        "summary" => $interact->summary,
-        "severity" => $interact->severity,
-        "documentation" => $interact->documentation,
-        "clarification" => $clarification,
-        "reference" => $reference
+    // retrieve our table contents
+    // fetch() is faster than fetchAll()
+    // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        // extract row
+        // this will make $row['name'] to
+        // just $name only
+        extract($row);
   
-    );
+        $interact_item=array(
+            "id" => $id,
+            "iddrug" => $iddrug,
+            "idotherdrug" => $idotherdrug,
+            "summary" => $summary,
+            "severity" => $severity,
+            "documentation" => $documentation,
+            "clarification" => $clarification,
+            "reference" => $reference
+        );
+  
+        array_push($interact_arr["interact"], $interact_item);
+    }
   
     // set response code - 200 OK
     http_response_code(200);
   
-    // make it json format
+    // show interact data in json format
     echo json_encode($interact_arr);
 }
-  
 else{
+  
     // set response code - 404 Not found
     http_response_code(404);
   
-    // tell the user interact does not exist
-    echo json_encode(array("message" => "interact does not exist."));
+    // tell the user no interact found
+    echo json_encode(
+        array("message" => "No interact found.")
+    );
 }
-?>
+  
+// no interact found will be here

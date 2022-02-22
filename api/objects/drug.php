@@ -85,10 +85,10 @@ function update(){
   
     // update query
     $query = "UPDATE ".$this->table_name." SET drugname = :drugname WHERE id = :id";
-  
+
     // prepare query statement
     $stmt = $this->conn->prepare($query);
-  
+
     // sanitize
     $this->drugname=htmlspecialchars(strip_tags($this->drugname));
     $this->id=htmlspecialchars(strip_tags($this->id));
@@ -96,9 +96,11 @@ function update(){
     // bind new values
     $stmt->bindParam(':drugname', $this->drugname);
     $stmt->bindParam(':id', $this->id);
-  
+   
+
     // execute the query
     if($stmt->execute()){
+
         return true;
     }
   

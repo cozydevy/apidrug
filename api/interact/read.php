@@ -56,7 +56,7 @@ if($num>0){
     http_response_code(200);
   
     // show interact data in json format
-    echo json_encode($products_arr);
+    echo json_encode($interact_arr);
 }
 else{
   
