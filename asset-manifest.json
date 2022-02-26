@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/drug/static/css/main.073c9b0a.css",
+    "main.js": "/drug/static/js/main.6668e592.js",
+    "static/js/988.79a35e95.chunk.js": "/drug/static/js/988.79a35e95.chunk.js",
+    "static/media/logo.svg": "/drug/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/drug/index.html",
+    "main.073c9b0a.css.map": "/drug/static/css/main.073c9b0a.css.map",
+    "main.6668e592.js.map": "/drug/static/js/main.6668e592.js.map",
+    "988.79a35e95.chunk.js.map": "/drug/static/js/988.79a35e95.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.6668e592.js"
+  ]
+}

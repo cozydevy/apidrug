@@ -1,7 +1,17 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
+header("Content-Type: application/json; charset=UTF-8");
+
 class Database{
   
     // specify your own database credentials
+    // private $host = "sql206.epizy.com";
+    // private $db_name = "epiz_31154023_dbdrug";
+    // private $username = "epiz_31154023";
+    // private $password = "Z1TeI0la9woEd4";
+
     private $host = "localhost";
     private $db_name = "dbdrug";
     private $username = "root";
