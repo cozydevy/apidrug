@@ -12,74 +12,30 @@ header("Access-Control-Allow-Headers: *");
 // include database and object files
 include_once '../config/database.php';
 include_once '../objects/interact.php';
-
+  
 // instantiate database and interact object
 $database = new Database();
 $db = $database->getConnection();
-
+  
 // initialize object
 $interact = new Interact($db);
 $data = json_decode(file_get_contents("php://input"));
-
-
-// $iddrug = array(); //5004
-
+$interact->iddrug = "D1";
+$interact->idotherdrug = "O1";
 
 // read interact will be here
 
 // query interact
-
-// $num = $stmt->rowCount();
-$numdurg = count($data->drug);
-$numotherdurg = count($data->otherdrug);
-
-// $interact->iddrug = $data->drug[0]->iddrug;
-// $interact->idotherdrug = $data->otherdrug[0]->idotherdrug;
-// for ($j = 0; $j < $numotherdurg; $j++) {
-
-// for ($i = 0; $i < $numdurg; $i++) {
-//     // array_push($iddrug,$data->drug[$i]->iddrug);
-  
-
-//     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-//         //     // extract row
-//         //     // this will make $row['name'] to
-//         //     // just $name only
-//         extract($row);
-
-//         $interact_item = array(
-//             "id" => $id,
-//             "iddrug" => $iddrug,
-//             "idotherdrug" => $idotherdrug,
-//             "summary" => $summary,
-//             "severity" => $severity,
-//             "documentation" => $documentation,
-//             "clarification" => $clarification,
-//             "reference" => $reference
-//         );
-
-//         array_push($interact_arr["interact"], $interact_item);
-//     }
-//     // }
-// }
-
-// http_response_code(200);
-
-// // show interact data in json format
-// // echo json_encode($interact_arr);
-// echo json_encode($iddrug);
+$stmt = $interact->readOne();
 $num = 1;
-$interact_arr=array();
-    $interact_arr["interact"]=array();
-// // check if more than 0 record found
+  
+// check if more than 0 record found
 if($num>0){
   
     // interact array
-    
-    $interact->iddrug = "D1";
-    $interact->idotherdrug = "O1";
-    
-    $stmt = $interact->readOne();
+    $interact_arr=array();
+    $interact_arr["interact"]=array();
+  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
     // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
@@ -108,15 +64,16 @@ if($num>0){
   
     // show interact data in json format
     echo json_encode($interact_arr);
-
-} else {
-
+}
+else{
+  
     // set response code - 404 Not found
     http_response_code(404);
-
+  
     // tell the user no interact found
     echo json_encode(
         array("status" => "No interact found.")
     );
 }
+  
 // no interact found will be here
