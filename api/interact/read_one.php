@@ -75,8 +75,9 @@ $interact_arr=array();
 if($num>0){
   
     // interact array
-    
-    $interact->iddrug = "D1";
+    for ($i = 0; $i < $numdurg; $i++) {
+
+    $interact->iddrug = $data->drug[$i]->iddrug;
     $interact->idotherdrug = "O1";
     
     $stmt = $interact->readOne();
@@ -102,7 +103,7 @@ if($num>0){
   
         array_push($interact_arr["interact"], $interact_item);
     }
-  
+}
     // set response code - 200 OK
     http_response_code(200);
   
