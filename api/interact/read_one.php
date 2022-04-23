@@ -69,9 +69,9 @@ $numotherdurg = count($data->otherdrug);
 // // echo json_encode($interact_arr);
 // echo json_encode($iddrug);
 $num = 1;
-$interact_arr = array();
+// $interact_arr = array();
 
-// // check if more than 0 record found
+// // // check if more than 0 record found
 if ($num > 0) {
 
     // interact array
@@ -121,6 +121,7 @@ if ($num > 0) {
 
     // show interact data in json format
     echo json_encode($arr);
+    
 } else {
 
     // set response code - 404 Not found
