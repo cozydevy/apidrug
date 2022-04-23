@@ -77,7 +77,8 @@ if ($num > 0) {
     // interact array
     for ($i = 0; $i < $numdurg; $i++) {
         $interact->iddrug = $data->drug[$i]->iddrug;
-        $namedrug=(string)$interact->iddrug; 
+
+        $namedrug=$data->drug[$i]->drugname; 
 
         $interact_arr[$namedrug] = array();
 
