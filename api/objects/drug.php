@@ -84,6 +84,26 @@ function readOne(){
     $this->drugname = $row['drugname'];
   
 }
+function readDrugName(){
+  
+   // query to read single record
+   $query = "SELECT drugname FROM ".$this->table_name." WHERE id = ?";
+   // prepare query statement
+    // select all query
+   
+    // $query = "SELECT * FROM products";
+    // prepare query statement
+    $stmtdrug = $this->conn->prepare($query);
+
+    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
+
+    // bind new values
+    $stmtdrug->bindParam(':drugname', $this->drugname);
+    // execute query
+    $stmtdrug->execute();
+
+    return $stmtdrug;
+}
 
 // update the drugname
 function update(){

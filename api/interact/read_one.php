@@ -18,9 +18,10 @@ $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
+// $interact = new Interact($db);
 $interact = new Interact($db);
-$data = json_decode(file_get_contents("php://input"));
 
+$data = json_decode(file_get_contents("php://input"));
 
 // $iddrug = array(); //5004
 
@@ -84,10 +85,12 @@ if ($num > 0) {
 
         for ($j = 0; $j < $numotherdurg; $j++) {
            
+            $nameotherdrug=$data->otherdrug[$j]->otherdrugname; 
 
             $interact->idotherdrug = $data->otherdrug[$j]->idotherdrug;
 
             $stmt = $interact->readOne();
+            
             // retrieve our table contents
             // fetch() is faster than fetchAll()
             // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
@@ -96,11 +99,14 @@ if ($num > 0) {
                 // this will make $row['name'] to
                 // just $name only
                 extract($row);
+           
+              
 
+                   
                 $interact_item = array(
                     "id" => $id,
-                    "iddrug" => $iddrug,
-                    "idotherdrug" => $idotherdrug,
+                    "drugname" => $namedrug,
+                    "otherdrugname" => $nameotherdrug,
                     "summary" => $summary,
                     "severity" => $severity,
                     "documentation" => $documentation,
