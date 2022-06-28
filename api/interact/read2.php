@@ -20,8 +20,8 @@ $db = $database->getConnection();
 // initialize object
 $interact = new Interact($db);
 $data = json_decode(file_get_contents("php://input"));
-$interact->iddrug = "D1";
-$interact->idotherdrug = "O1";
+$interact->iddrug = $data->iddrug;
+$interact->idotherdrug = $data->idotherdrug;
 
 // read interact will be here
 
@@ -61,9 +61,9 @@ if($num>0){
   
     // set response code - 200 OK
     http_response_code(200);
-  
+    echo json_encode(array("data" =>$interact_arr));
     // show interact data in json format
-    echo json_encode($interact_arr);
+    // echo json_encode($interact_arr);
 }
 else{
   
