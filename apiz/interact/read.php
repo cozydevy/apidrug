@@ -2,32 +2,36 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-  ;
+
+
+header('Access-Control-Allow-Methods: GET, POST');
+
+header("Access-Control-Allow-Headers: X-Requested-With");
 // database connection will be here
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/drug.php';
+include_once '../objects/interact.php';
   
-// instantiate database and drug object
+// instantiate database and interact object
 $database = new Database();
 $db = $database->getConnection();
   
 // initialize object
-$drug = new Drug($db);
+$interact = new Interact($db);
   
-// read drug will be here
+// read interact will be here
 
-// query drug
-$stmt = $drug->read();
+// query interact
+$stmt = $interact->read();
 $num = $stmt->rowCount();
   
 // check if more than 0 record found
 if($num>0){
   
-    // drug array
-    $drug_arr=array();
-    $drug_arr["drug"]=array();
+    // interact array
+    $interact_arr=array();
+    $interact_arr["records"]=array();
   
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -38,30 +42,35 @@ if($num>0){
         // just $name only
         extract($row);
   
-        $drug_item=array(
+        $interact_item=array(
             "id" => $id,
-            "drugname" => $drugname,
-         
+            "iddrug" => $iddrug,
+            "idotherdrug" => $idotherdrug,
+            "summary" => $summary,
+            "severity" => $severity,
+            "documentation" => $documentation,
+            "clarification" => $clarification,
+            "reference" => $reference
         );
   
-        array_push($drug_arr["drug"], $drug_item);
+        array_push($interact_arr["records"], $interact_item);
     }
   
     // set response code - 200 OK
     http_response_code(200);
   
-    // show drug data in json format
-    echo json_encode($drug_arr);
+    // show interact data in json format
+    echo json_encode($interact_arr);
 }
 else{
   
     // set response code - 404 Not found
     http_response_code(404);
   
-    // tell the user no drug found
+    // tell the user no interact found
     echo json_encode(
-        array("message" => "No drug found.")
+        array("message" => "No interact found.")
     );
 }
   
-// no drug found will be here
+// no interact found will be here

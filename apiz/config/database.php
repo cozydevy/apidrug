@@ -13,17 +13,17 @@ class Database{
     // private $password = "Z1TeI0la9woEd4";
 
     private $host = "localhost";
-    private $db_name = "dbdrug";
-    private $username = "root";
-    private $password = "";
+    private $db_name = "epiz_31641611_drug";
+    private $username = "epiz_31641611";
+    private $password = "v9YtYRdPMW";
     public $conn;
+  
     // get the database connection
     public function getConnection(){
   
         $this->conn = null;
+  
         try{
-         
-
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->exec("set names utf8");
         }catch(PDOException $exception){
@@ -32,6 +32,5 @@ class Database{
   
         return $this->conn;
     }
-    
 }
 ?>

@@ -1,17 +1,16 @@
 <?php
 // required headers
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
+header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Credentials: true");
-header('Content-Type: application/json');
-// database connection will be here
-
-// include database and object files
-include_once '../config/database.php';
-include_once '../objects/drug.php';
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
   
-
+// get database connection
+include_once '../config/database.php';
+  
+// instantiate drug object
+include_once '../objects/drug.php';
   
 $database = new Database();
 $db = $database->getConnection();
@@ -19,16 +18,15 @@ $db = $database->getConnection();
 $drug = new Drug($db);
   
 // get posted data
-// $data = json_decode(file_get_contents("php://input"));
-$data = $_POST['drugname'];
+$data = json_decode(file_get_contents("php://input"));
 // make sure data is not empty
 if(
-    !empty($data) 
+    !empty($data->drugname) 
  
 ){
   
     // set drug property values
-    $drug->drugname = $data;
+    $drug->drugname = $data->drugname;
    
   
     // create the drug
@@ -48,7 +46,7 @@ if(
         http_response_code(503);
   
         // tell the user
-        echo json_encode(array("message" => "Unable"));
+        echo json_encode(array("message" => "Unable to create drug."));
     }
 }
   
@@ -59,6 +57,6 @@ else{
     http_response_code(400);
   
     // tell the user
-    echo json_encode(array("message" => "Unable to create drug."));
+    echo json_encode(array("message" => "Unable to create drug. Data is incomplete."));
 }
 ?>

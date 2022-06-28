@@ -1,10 +1,11 @@
 <?php
+// required headers
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
+header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Credentials: true");
-header('Content-Type: application/json');
-// database connection will be here
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+  
 // include database and object file
 include_once '../config/database.php';
 include_once '../objects/drug.php';
@@ -17,13 +18,11 @@ $db = $database->getConnection();
 $drug = new Drug($db);
   
 // get drug id
-$data = $_POST['id'];  
+$data = json_decode(file_get_contents("php://input"));
+  
 // set drug id to be deleted
-$drug->id = $data;
-    // http_response_code(200);
-
-    //   echo json_encode(array("message" =>$drug->id));
-
+$drug->id = $data->id;
+  
 // delete the drug
 if($drug->delete()){
   
@@ -43,3 +42,4 @@ else{
     // tell the user
     echo json_encode(array("message" => "Unable to delete drug."));
 }
+?>

@@ -1,9 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 class Otherdrug
 {
 
@@ -26,7 +21,7 @@ class Otherdrug
     {
 
         // select all query
-        $query = "SELECT * FROM otherdrug ORDER BY otherdrugname ASC";
+        $query = "SELECT * FROM otherdrug";
         // $query = "SELECT * FROM otherdrug";
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -39,69 +34,25 @@ class Otherdrug
     // create otherdrug
 function create(){
   
-
-    $query1 = "SELECT id FROM otherdrug ORDER BY idherb DESC LIMIT 1";
-    // prepare query statement
-    $stmt1 = $this->conn->prepare($query1);
-
-
-
-    // execute query
-    $stmt1->execute();
-
-    // get retrieved row
-    $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-
-    // set values to object properties
-    $lastId = $row['id'];
-
-
-    list($prefix,$Id) = explode('O',$lastId );
-    $Id = ($Id+1);
-    $new_id = 'O'.$Id;
-
     // query to insert record
-    // $query = "INSERT INTO " . $this->table_name . " SET drugname=:drugname";
-    $query = "INSERT INTO " . $this->table_name . " SET id='".$new_id."', otherdrugname=:otherdrug";
-
+    $query = "INSERT INTO ".$this->table_name." SET otherdrug=:otherdrug";
+  
     // prepare query
     $stmt = $this->conn->prepare($query);
-
+  
     // sanitize
-    $this->otherdrug = htmlspecialchars(strip_tags($this->otherdrug));
-
+    $this->drugname=htmlspecialchars(strip_tags($this->otherdrug));
+   
     // bind values
     $stmt->bindParam(":otherdrug", $this->otherdrug);
-
-
+  
+  
     // execute query
-    if ($stmt->execute()) {
+    if($stmt->execute()){
         return true;
     }
-
+  
     return false;
-
-
-
-    // // query to insert record
-    // $query = "INSERT INTO ".$this->table_name." SET otherdrug=:otherdrug";
-  
-    // // prepare query
-    // $stmt = $this->conn->prepare($query);
-  
-    // // sanitize
-    // $this->drugname=htmlspecialchars(strip_tags($this->otherdrug));
-   
-    // // bind values
-    // $stmt->bindParam(":otherdrug", $this->otherdrug);
-  
-  
-    // // execute query
-    // if($stmt->execute()){
-    //     return true;
-    // }
-  
-    // return false;
       
 }
 

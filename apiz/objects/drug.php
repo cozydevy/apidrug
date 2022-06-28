@@ -4,16 +4,16 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-class Otherdrug
+class Drug
 {
 
     // database connection and table name
     private $conn;
-    private $table_name = "otherdrug";
+    private $table_name = "drug";
 
     // object properties
     public $id;
-    public $otherdrug;
+    public $drugname;
   
 
     // constructor with $db as database connection
@@ -26,8 +26,8 @@ class Otherdrug
     {
 
         // select all query
-        $query = "SELECT * FROM otherdrug ORDER BY otherdrugname ASC";
-        // $query = "SELECT * FROM otherdrug";
+        $query = "SELECT * FROM drug";
+        // $query = "SELECT * FROM products";
         // prepare query statement
         $stmt = $this->conn->prepare($query);
 
@@ -36,72 +36,28 @@ class Otherdrug
 
         return $stmt;
     }
-    // create otherdrug
+    // create Drug
 function create(){
   
-
-    $query1 = "SELECT id FROM otherdrug ORDER BY idherb DESC LIMIT 1";
-    // prepare query statement
-    $stmt1 = $this->conn->prepare($query1);
-
-
-
-    // execute query
-    $stmt1->execute();
-
-    // get retrieved row
-    $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-
-    // set values to object properties
-    $lastId = $row['id'];
-
-
-    list($prefix,$Id) = explode('O',$lastId );
-    $Id = ($Id+1);
-    $new_id = 'O'.$Id;
-
     // query to insert record
-    // $query = "INSERT INTO " . $this->table_name . " SET drugname=:drugname";
-    $query = "INSERT INTO " . $this->table_name . " SET id='".$new_id."', otherdrugname=:otherdrug";
-
+    $query = "INSERT INTO ".$this->table_name." SET drugname=:drugname";
+  
     // prepare query
     $stmt = $this->conn->prepare($query);
-
+  
     // sanitize
-    $this->otherdrug = htmlspecialchars(strip_tags($this->otherdrug));
-
+    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
+   
     // bind values
-    $stmt->bindParam(":otherdrug", $this->otherdrug);
-
-
+    $stmt->bindParam(":drugname", $this->drugname);
+  
+  
     // execute query
-    if ($stmt->execute()) {
+    if($stmt->execute()){
         return true;
     }
-
+  
     return false;
-
-
-
-    // // query to insert record
-    // $query = "INSERT INTO ".$this->table_name." SET otherdrug=:otherdrug";
-  
-    // // prepare query
-    // $stmt = $this->conn->prepare($query);
-  
-    // // sanitize
-    // $this->drugname=htmlspecialchars(strip_tags($this->otherdrug));
-   
-    // // bind values
-    // $stmt->bindParam(":otherdrug", $this->otherdrug);
-  
-  
-    // // execute query
-    // if($stmt->execute()){
-    //     return true;
-    // }
-  
-    // return false;
       
 }
 
@@ -109,7 +65,7 @@ function create(){
 function readOne(){
   
     // query to read single record
-    $query = "SELECT id , otherdrug FROM ".$this->table_name." WHERE id = ?";
+    $query = "SELECT id , drugname FROM ".$this->table_name." WHERE id = ?";
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
   
@@ -125,29 +81,51 @@ function readOne(){
     // set values to object properties
     $this->id = $row['id'];
 
-    $this->drugname = $row['otherdrug'];
+    $this->drugname = $row['drugname'];
   
+}
+function readDrugName(){
+  
+   // query to read single record
+   $query = "SELECT drugname FROM ".$this->table_name." WHERE id = ?";
+   // prepare query statement
+    // select all query
+   
+    // $query = "SELECT * FROM products";
+    // prepare query statement
+    $stmtdrug = $this->conn->prepare($query);
+
+    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
+
+    // bind new values
+    $stmtdrug->bindParam(':drugname', $this->drugname);
+    // execute query
+    $stmtdrug->execute();
+
+    return $stmtdrug;
 }
 
 // update the drugname
 function update(){
   
     // update query
-    $query = "UPDATE ".$this->table_name." SET otherdrug = :otherdrug WHERE id = :id";
-  
+    $query = "UPDATE ".$this->table_name." SET drugname = :drugname WHERE id = :id";
+
     // prepare query statement
     $stmt = $this->conn->prepare($query);
-  
+
     // sanitize
-    $this->otherdrug=htmlspecialchars(strip_tags($this->otherdrug));
+    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
     $this->id=htmlspecialchars(strip_tags($this->id));
   
     // bind new values
-    $stmt->bindParam(':otherdrug', $this->otherdrug);
+    $stmt->bindParam(':drugname', $this->drugname);
     $stmt->bindParam(':id', $this->id);
-  
+   
+
     // execute the query
     if($stmt->execute()){
+
         return true;
     }
   
@@ -180,7 +158,7 @@ function delete(){
 function search($keywords){
   
     // select all query
-    $query = "SELECT  id, otherdrug FROM ".$this->table_name." WHERE id LIKE ?";
+    $query = "SELECT  id, drugname FROM ".$this->table_name." WHERE id LIKE ?";
   
     // prepare query statement
     $stmt = $this->conn->prepare($query);
