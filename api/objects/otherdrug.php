@@ -133,19 +133,19 @@ function readOne(){
 function update(){
   
     // update query
-    $query = "UPDATE ".$this->table_name." SET otherdrug = :otherdrug WHERE id = :id";
+    $query = "UPDATE ".$this->table_name." SET otherdrugname = :otherdrug WHERE id = :id";
   
     // prepare query statement
     $stmt = $this->conn->prepare($query);
   
     // sanitize
-    $this->otherdrug=htmlspecialchars(strip_tags($this->otherdrug));
     $this->id=htmlspecialchars(strip_tags($this->id));
-  
+    $this->otherdrug=htmlspecialchars(strip_tags($this->otherdrug));
+
     // bind new values
-    $stmt->bindParam(':otherdrug', $this->otherdrug);
     $stmt->bindParam(':id', $this->id);
-  
+    $stmt->bindParam(':otherdrug', $this->otherdrug);
+
     // execute the query
     if($stmt->execute()){
         return true;

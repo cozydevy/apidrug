@@ -1,40 +1,40 @@
 <?php
 // required headers
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Headers: access");
 header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+header('Content-Type: application/json');
   
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/drug.php';
+include_once '../objects/otherdrug.php';
   
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
   
 // prepare drug object
-$drug = new Drug($db);
+$otherdrug = new Otherdrug($db);
   
 // get id of drug to be edited
 $data = json_decode(file_get_contents("php://input"));
   
 // set ID property of drug to be edited
-$drug->id = $data->id;
+$otherdrug->id = $data->id;
   
 // set drug property values
-$drug->drugname = $data->drugname;
+$otherdrug->otherdrug = $data->otherdrugname;
 
   
 // update the drug
-if($drug->update()){
+if($otherdrug->update()){
   
     // set response code - 200 ok
     http_response_code(200);
   
     // tell the user
-    echo json_encode(array("message" => "drug was updated."));
+    echo json_encode(array("message" => "otherdrug was updated."));
 }
   
 // if unable to update the drug, tell the user
@@ -44,6 +44,6 @@ else{
     http_response_code(503);
   
     // tell the user
-    echo json_encode(array("message" => "Unable to update drug."));
+    echo json_encode(array("message" => "Unable to update otherdrug."));
 }
 ?>

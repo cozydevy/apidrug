@@ -1,36 +1,36 @@
 <?php
 // required headers
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Headers: access");
 header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+header('Content-Type: application/json');
   
 // include database and object file
 include_once '../config/database.php';
-include_once '../objects/drug.php';
+include_once '../objects/otherdrug.php';
   
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
   
 // prepare drug object
-$drug = new Drug($db);
+$otherdrug = new Otherdrug($db);
   
 // get drug id
 $data = json_decode(file_get_contents("php://input"));
   
 // set drug id to be deleted
-$drug->id = $data->id;
+$otherdrug->id = $data->id;
   
 // delete the drug
-if($drug->delete()){
+if($otherdrug->delete()){
   
     // set response code - 200 ok
     http_response_code(200);
   
     // tell the user
-    echo json_encode(array("message" => "drug was deleted."));
+    echo json_encode(array("message" => "otherdrug was deleted."));
 }
   
 // if unable to delete the drug
@@ -40,6 +40,6 @@ else{
     http_response_code(503);
   
     // tell the user
-    echo json_encode(array("message" => "Unable to delete drug."));
+    echo json_encode(array("message" => "Unable to delete otherdrug."));
 }
 ?>
