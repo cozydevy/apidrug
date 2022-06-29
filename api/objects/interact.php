@@ -108,18 +108,26 @@ function readOne(){
 function update(){
   
     // update query
-    $query = "UPDATE ".$this->table_name." SET drugname = :drugname WHERE id = :id ";
+    $query = "UPDATE ".$this->table_name." SET summary = :summary ,severity = :severity ,documentation = :documentation ,clarification = :clarification ,reference = :reference  WHERE id = :id";
   
     // prepare query statement
     $stmt = $this->conn->prepare($query);
-
+  
     // sanitize
-    $this->drugname=htmlspecialchars(strip_tags($this->drugname));
     $this->id=htmlspecialchars(strip_tags($this->id));
+    $this->summary=htmlspecialchars(strip_tags($this->summary));
+    $this->severity=htmlspecialchars(strip_tags($this->severity));
+    $this->documentation=htmlspecialchars(strip_tags($this->documentation));
+    $this->clarification=htmlspecialchars(strip_tags($this->clarification));
+    $this->reference=htmlspecialchars(strip_tags($this->reference));
 
     // bind new values
-    $stmt->bindParam(':drugname', $this->drugname);
     $stmt->bindParam(':id', $this->id);
+    $stmt->bindParam(':summary', $this->summary);
+    $stmt->bindParam(':severity', $this->severity);
+    $stmt->bindParam(':documentation', $this->documentation);
+    $stmt->bindParam(':clarification', $this->clarification);
+    $stmt->bindParam(':reference', $this->reference);
 
     // execute the query
     if($stmt->execute()){
